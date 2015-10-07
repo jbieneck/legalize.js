@@ -20,12 +20,14 @@
 (function (factory) {
     "use strict";
 
-    if (typeof define === 'function' && define.amd) {
-        define('Legalize', factory);
-    } else {
-        window.Legalize = factory();
-    }
+    var hookup      = typeof window !== "undefined" ? window : this;
+    hookup.Legalize = factory(hookup);
 
+    if (typeof define === "function" && define.amd) {
+        define("Legalize", [], function () {
+            return hookup.Legalize;
+        });
+    }
 }(function (undefined) {
     "use strict";
 
@@ -100,7 +102,8 @@
         }
     };
 
-    return (function (Object) {
+    return (function (Object) {        
+
         // the `Object` argument overloads the actual `Object` in legacy
         // browser engines. legalize uses exactly the functions defined
         // above. Node will not care as this file is only wrapped around
