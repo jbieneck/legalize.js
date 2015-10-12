@@ -817,7 +817,7 @@ function validate(value, schema, options, callback) {
 }
 
 
-publiclyExposedInterface = Object.freeze({
+publiclyExposedInterface = {
 
     any:        bind(rootSchemaBuilder, any),
     bool:       bind(rootSchemaBuilder, bool),
@@ -834,7 +834,7 @@ publiclyExposedInterface = Object.freeze({
     validate: validate,
 
     typeOf: typeOf
-});
+};
 
 optionSchema = compile({
     allowUnknown:

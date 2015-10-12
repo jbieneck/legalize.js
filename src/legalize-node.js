@@ -14,6 +14,6 @@
  │  limitations under the License.                                            │
  \*───────────────────────────────────────────────────────────────────────────*/
 
-var LegalizeInternal = require("./legalize.js");
+var LegalizeInternal = require("./legalize.js").publiclyExposedInterface;
 
-module.exports = LegalizeInternal.publiclyExposedInterface;
+module.exports = Object.freeze(LegalizeInternal);

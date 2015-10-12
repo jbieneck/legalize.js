@@ -59,14 +59,14 @@
             var hasOwnProperty = Object.prototype.hasOwnProperty;
             var hasDontEnumBug = !({ toString: null }).propertyIsEnumerable('toString');
             var dontEnums = [
-                  'toString',
-                  'toLocaleString',
-                  'valueOf',
-                  'hasOwnProperty',
-                  'isPrototypeOf',
-                  'propertyIsEnumerable',
-                  'constructor'
-                ];
+                'toString',
+                'toLocaleString',
+                'valueOf',
+                'hasOwnProperty',
+                'isPrototypeOf',
+                'propertyIsEnumerable',
+                'constructor'
+            ];
             var dontEnumsLength = dontEnums.length;
 
             return function(obj) {
@@ -100,7 +100,7 @@
         }
     };
 
-    return (function (Object) {
+    var Legalize = (function (Object) {
 
         // the `Object` argument overloads the actual `Object` in legacy
         // browser engines. legalize uses exactly the functions defined
@@ -111,8 +111,22 @@
 
         // @include legalize.js
         /* global publiclyExposedInterface */
+        var _Legalize = window.Legalize;
+        window.Legalize = Legalize;
 
-        return publiclyExposedInterface;
+        function noConflict() {
+            if (window.Legalize !== undefined) {
+                window.Legalize = _Legalize;
+            }
+            return Legalize;
+        }
+
+        publiclyExposedInterface.noConflict = noConflict;
+
+        return Object.freeze(publiclyExposedInterface);
+
     }(ES5Object));
+
+    return Legalize;
 }));
 
