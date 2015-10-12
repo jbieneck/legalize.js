@@ -20,11 +20,18 @@
 (function (factory) {
     "use strict";
 
-    var hookup      = typeof window !== "undefined" ? window : this;
-    hookup.Legalize = factory();
+    var legalize = factory();
 
+    // set globally for use with plain javascript
+    if (typeof window !== "undefined") {
+        window.Legalize = legalize;
+    } else {
+        this.Legalize = legalize;
+    }
+
+    // define module for use with requireJs
     if (typeof define === "function" && define.amd) {
-        define("Legalize", [], hookup.Legalize);
+        define("Legalize", [], legalize);
     }
 }(function (undefined) {
     "use strict";
@@ -51,13 +58,13 @@
             return x;
         },
 
-        keys: isFunc(Object.keys) ? Object.keys : (function() {
+        keys: isFunc(Object.keys) ? Object.keys : (function () {
             // Object.keys() is not available in some legacy browsers.
             // This shim is taken (and slightly modified to make jshint happy) from
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 
             var hasOwnProperty = Object.prototype.hasOwnProperty;
-            var hasDontEnumBug = !({ toString: null }).propertyIsEnumerable('toString');
+            var hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString');
             var dontEnums = [
                 'toString',
                 'toLocaleString',
@@ -69,7 +76,7 @@
             ];
             var dontEnumsLength = dontEnums.length;
 
-            return function(obj) {
+            return function (obj) {
                 var result = [], prop, i;
 
                 for (prop in obj) {
@@ -970,7 +977,6 @@
         
         /* global publiclyExposedInterface */
         var _Legalize = window.Legalize;
-        window.Legalize = Legalize;
 
         function noConflict() {
             if (window.Legalize !== undefined) {
